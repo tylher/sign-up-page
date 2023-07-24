@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createUser } from "../features/user/user_slice";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const data = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const [register, setRegister] = useState({});
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setRegister({
       ...register,
       [e.target.name]: e.target.value,
     });
   };
-
-  useEffect(() => console.log(register), [handleChange]);
+  console.log(data);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const result = await dispatch(createUser(register));
+    if (result.meta["requestStatus"] === "fulfilled") navigate("/signup");
+    else {
+      navigate("/signup");
+    }
+  };
 
   return (
     <div className=" space-y-5 w-full">
@@ -17,6 +30,7 @@ const SignUp = () => {
       <form
         action=""
         className="flex flex-col gap-6 w-5/6 md:w-96 lg:w-2/5 mx-auto  p-8 rounded-xl h-5/6 shadow-2xl bg-white"
+        onSubmit={handleSubmit}
       >
         <div className="flex flex-col space-y-3">
           <label htmlFor="" className="text-gray-600">
@@ -36,8 +50,9 @@ const SignUp = () => {
           </label>
           <input
             type="text"
-            name=""
+            name="second_name"
             id=""
+            onChange={handleChange}
             className="border w-full px-3 h-10 bg-gray-100 focus:outline-none hover:shadow-md hover:rounded-md focus:bg-white transition-all duration-200"
           />
         </div>
@@ -48,8 +63,9 @@ const SignUp = () => {
           </label>
           <input
             type="email"
-            name=""
+            name="email"
             id=""
+            onChange={handleChange}
             className="border w-full px-3 h-10 bg-gray-100 focus:outline-none hover:shadow-md hover:rounded-md focus:bg-white transition-all duration-200"
           />
         </div>
@@ -59,9 +75,10 @@ const SignUp = () => {
             Password{" "}
           </label>
           <input
-            type="text"
-            name=""
+            type="password"
+            name="password"
             id=""
+            onChange={handleChange}
             className="border w-full px-3 h-10 bg-gray-100 focus:outline-none hover:shadow-md hover:rounded-md focus:bg-white transition-all duration-200"
           />
         </div>
