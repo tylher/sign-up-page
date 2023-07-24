@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createUser } from "../features/user/user_slice";
 import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-  const data = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [register, setRegister] = useState({});
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const handleChange = (e) => {
     setRegister({
@@ -14,13 +14,14 @@ const SignUp = () => {
       [e.target.name]: e.target.value,
     });
   };
-  console.log(data);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await dispatch(createUser(register));
+    console.log(result);
     if (result.meta["requestStatus"] === "fulfilled") navigate("/signup");
     else {
-      navigate("/signup");
+      setError(result.payload.data.message);
     }
   };
 
@@ -32,6 +33,7 @@ const SignUp = () => {
         className="flex flex-col gap-6 w-5/6 md:w-96 lg:w-2/5 mx-auto  p-8 rounded-xl h-5/6 shadow-2xl bg-white"
         onSubmit={handleSubmit}
       >
+        {error && <span>{error}</span>}
         <div className="flex flex-col space-y-3">
           <label htmlFor="" className="text-gray-600">
             First name

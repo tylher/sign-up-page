@@ -29,13 +29,13 @@ export const createUser = createAsyncThunk(
           const result = {
             authorization: res.headers.getAuthorization(),
             user: res.data.data,
+            status: res.status,
           };
-          console.log(result);
+
           return result;
         });
     } catch (err) {
-      console.log(err.response.data);
-      return rejectWithValue(err.response.data.message);
+      return rejectWithValue(err.response);
     }
   }
 );
@@ -53,10 +53,12 @@ const userSlice = createSlice({
       state.token = payload.authorization;
       state.loading = false;
       state.error = "";
+      state.status = "";
     });
     builder.addCase(createUser.rejected, (state, action) => {
       state.isLoggedIn = false;
-      state.error = action.payload;
+      state.error = action.payload.data.message;
+      state.status = action.payload.status;
       state.loading = false;
     });
   },
