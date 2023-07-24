@@ -30,7 +30,7 @@ const SignUp = () => {
       <h2 className="text-center text-white text-xl"> REGISTER HERE</h2>
       <form
         action=""
-        className="flex flex-col gap-6 w-5/6 md:w-96 lg:w-2/5 mx-auto  p-8 rounded-xl h-5/6 shadow-2xl bg-white"
+        className="flex flex-col gap-6 w-5/6 md:w-3/5 lg:w-1/2 xl:2/5 mx-auto  p-8 rounded-xl h-5/6 shadow-2xl bg-white"
         onSubmit={handleSubmit}
       >
         {error && <span>{error}</span>}
