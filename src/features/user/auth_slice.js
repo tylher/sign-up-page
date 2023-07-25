@@ -108,7 +108,7 @@ const userSlice = createSlice({
     builder.addCase(createSession.rejected, (state, { payload }) => {
       state.loading = false;
       state.isLoggedIn = false;
-      state.error = payload.errors;
+      state.error = payload.data;
       state.status = payload.status;
     });
   },

@@ -1,5 +1,5 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createSession } from "../features/user/auth_slice";
@@ -8,7 +8,8 @@ const Login = () => {
   const dispatch = useDispatch();
   const [register, setRegister] = useState({});
   const [error, setError] = useState(null);
-  //   const navigate = useNavigate();
+  const data = useSelector((state) => state.auth);
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setRegister({
       ...register,
@@ -16,11 +17,17 @@ const Login = () => {
     });
   };
 
+  useEffect(() => {
+    console.log(data);
+    setError(data.error);
+  }, [data]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await dispatch(createSession(register));
-    console.log(result);
+    if (result.meta["requestStatus"] === "fulfilled") navigate("/dashboard");
   };
+
   return (
     <div className=" space-y-5 w-full">
       <h2 className="text-center text-white text-xl"> PLEASE SIGN IN</h2>

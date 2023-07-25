@@ -23,7 +23,7 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await dispatch(createUser(register));
-    if (result.meta["requestStatus"] === "fulfilled") navigate("/signup");
+    if (result.meta["requestStatus"] === "fulfilled") navigate("/dashboard");
   };
 
   return (
