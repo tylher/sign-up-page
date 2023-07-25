@@ -29,7 +29,7 @@ const Login = () => {
   };
 
   return (
-    <div className=" space-y-5 w-full">
+    <div className=" space-y-5 w-full pb-5">
       <h2 className="text-center text-white text-xl"> PLEASE SIGN IN</h2>
       <form
         action=""
