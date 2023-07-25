@@ -32,12 +32,11 @@ export const createUser = createAsyncThunk(
             status: res.status,
           };
 
-          localStorage.setItem("token", result.authorization);
+          localStorage.setItem("token", JSON.stringify(result.authorization));
 
           return result;
         });
     } catch (err) {
-      console.log(err.response);
       return rejectWithValue(err.response);
     }
   }
@@ -65,13 +64,11 @@ export const createSession = createAsyncThunk(
             user: res.data.data,
             status: res.status,
           };
-          console.log(result);
           localStorage.setItem("token", result.authorization);
 
           return result;
         });
     } catch (err) {
-      console.log(err.response);
       return rejectWithValue(err.response);
     }
   }

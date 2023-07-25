@@ -2,9 +2,10 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createSession } from "../features/user/auth_slice";
 
 const Login = () => {
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [register, setRegister] = useState({});
   const [error, setError] = useState(null);
   //   const navigate = useNavigate();
@@ -14,13 +15,19 @@ const Login = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const result = await dispatch(createSession(register));
+    console.log(result);
+  };
   return (
     <div className=" space-y-5 w-full">
       <h2 className="text-center text-white text-xl"> PLEASE SIGN IN</h2>
       <form
         action=""
         className="flex flex-col gap-6 w-5/6 md:w-3/5 lg:w-1/2 xl:2/5 mx-auto  p-8 rounded-xl h-5/6 shadow-2xl bg-white"
-        // onSubmit={handleSubmit}
+        onSubmit={handleSubmit}
       >
         {error && <span>{error}</span>}
         <div className="flex flex-col space-y-3">
